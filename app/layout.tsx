@@ -2,12 +2,13 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import DashboardLayout from "@/components/dashboard-layout"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Prim's Algorithm Visualization",
-  description: "Interactive visualization of Prim's Algorithm using Min-Heap",
+  title: "Data Structures and Algorithms",
+  description: "Interactive learning platform for Data Structures and Algorithms",
 }
 
 export default function RootLayout({
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <DashboardLayout>{children}</DashboardLayout>
+      </body>
     </html>
   )
 }

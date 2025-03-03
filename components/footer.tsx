@@ -1,9 +1,9 @@
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-slate-900 shadow-md mt-auto">
+    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-4 py-4 text-center">
-        <p className="text-sm text-slate-600 dark:text-slate-400">
-          © {new Date().getFullYear()} Praise Masunga. All rights reserved.
+        <p className="text-gray-600 dark:text-gray-400">
+          © {new Date().getFullYear()} Data Structures & Algorithms. Created by Praise Masunga.
         </p>
       </div>
     </footer>
