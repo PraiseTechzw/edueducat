@@ -1,4 +1,6 @@
 "use client"
+
+import { useEffect, useRef, useState } from "react"
 import { Play, Pause, SkipForward, RotateCcw, BookOpen, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -14,7 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
-import { useEffect, useRef, useState } from "react"
+import type { Edge } from "@/types/graph"
+import PythonImplementation from "@/components/python-implementation"
 
 // Define graph types
 
@@ -23,12 +26,6 @@ type Node = {
   label: string
   x?: number
   y?: number
-}
-
-type Edge = {
-  source: number
-  target: number
-  weight: number
 }
 
 type Graph = {
@@ -570,15 +567,15 @@ export default function PrimsVisualization() {
   }
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex-1">
+    <div className="flex flex-col space-y-4 md:space-y-6">
+      <div className="flex flex-col xl:flex-row gap-4 md:gap-6">
+        <div className="flex-1 xl:w-2/3">
           <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow mb-4">
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 space-y-2 sm:space-y-0">
               <h3 className="text-lg font-semibold">Graph Visualization</h3>
               <div className="flex items-center space-x-2">
                 <Select value={selectedGraph} onValueChange={handleGraphChange}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-[140px] sm:w-[180px]">
                     <SelectValue placeholder="Select Graph" />
                   </SelectTrigger>
                   <SelectContent>
@@ -594,7 +591,7 @@ export default function PrimsVisualization() {
                       <Settings className="h-4 w-4" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                       <DialogTitle>Visualization Settings</DialogTitle>
                       <DialogDescription>Customize how the algorithm is visualized</DialogDescription>
@@ -637,7 +634,7 @@ export default function PrimsVisualization() {
                 </Dialog>
               </div>
             </div>
-            <div className="relative w-full h-[400px] border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900">
+            <div className="relative w-full h-[300px] sm:h-[400px] border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900">
               <canvas ref={canvasRef} width={500} height={400} className="w-full h-full" />
             </div>
           </div>
@@ -645,12 +642,12 @@ export default function PrimsVisualization() {
           {showHeap && (
             <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow mb-4">
               <h3 className="text-lg font-semibold mb-2">Min-Heap Visualization</h3>
-              <div className="relative w-full h-[200px] border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900">
+              <div className="relative w-full h-[150px] sm:h-[200px] border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900">
                 <canvas ref={heapCanvasRef} width={500} height={200} className="w-full h-full" />
               </div>
-              <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                 <p>The min-heap always gives us the edge with the minimum weight when we extract from it.</p>
-                <div className="flex items-center mt-1 space-x-4">
+                <div className="flex flex-wrap items-center mt-1 space-x-2 space-y-1">
                   <div className="flex items-center">
                     <div className="w-3 h-3 rounded-full bg-[#ff9800] mr-1"></div>
                     <span>Extracting</span>
@@ -667,12 +664,17 @@ export default function PrimsVisualization() {
               </div>
             </div>
           )}
+
+          <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow mb-4">
+            <h3 className="text-lg font-semibold mb-4">Python Implementation</h3>
+            <PythonImplementation />
+          </div>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 xl:w-1/3">
           <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow mb-4">
             <h3 className="text-lg font-semibold mb-2">Algorithm Progress</h3>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 space-y-2 sm:space-y-0">
               <span className="text-sm font-medium">
                 Step {currentStep + 1} of {steps.length}
               </span>
@@ -685,7 +687,7 @@ export default function PrimsVisualization() {
               />
             </div>
 
-            <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg mb-4">
+            <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg mb-4 h-[100px] overflow-y-auto">
               <p className="text-sm text-slate-800 dark:text-slate-200 font-medium mb-1">
                 {steps[currentStep]?.description || ""}
               </p>
@@ -696,7 +698,7 @@ export default function PrimsVisualization() {
               )}
             </div>
 
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-4 space-y-2 sm:space-y-0">
               <div className="flex space-x-2">
                 <Button variant="outline" size="icon" onClick={stepBackward} disabled={currentStep <= 0}>
                   <svg
@@ -736,10 +738,11 @@ export default function PrimsVisualization() {
             <Tabs defaultValue="heap">
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="heap">Min-Heap</TabsTrigger>
+                <TabsTrigger value="heap">Min-Heap</TabsTrigger>
                 <TabsTrigger value="mst">Current MST</TabsTrigger>
                 <TabsTrigger value="help">Help</TabsTrigger>
               </TabsList>
-              <TabsContent value="heap" className="p-4 border rounded-md mt-2 max-h-[300px] overflow-auto">
+              <TabsContent value="heap" className="p-4 border rounded-md mt-2 max-h-[200px] overflow-auto">
                 <h4 className="font-medium mb-2">Current Min-Heap</h4>
                 {steps[currentStep]?.currentHeap.length > 0 ? (
                   <div className="space-y-2">
@@ -748,20 +751,20 @@ export default function PrimsVisualization() {
                         key={index}
                         className="flex justify-between items-center p-2 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700"
                       >
-                        <span className="font-medium">
+                        <span className="font-medium text-xs sm:text-sm">
                           {graph.nodes[item.edge.source].label}-{graph.nodes[item.edge.target].label}
                         </span>
-                        <span className="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded font-mono text-sm">
+                        <span className="px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded font-mono text-xs sm:text-sm">
                           Weight: {item.priority}
                         </span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-slate-500 dark:text-slate-400">Heap is empty</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">Heap is empty</p>
                 )}
               </TabsContent>
-              <TabsContent value="mst" className="p-4 border rounded-md mt-2 max-h-[300px] overflow-auto">
+              <TabsContent value="mst" className="p-4 border rounded-md mt-2 max-h-[200px] overflow-auto">
                 <h4 className="font-medium mb-2">Current MST Edges</h4>
                 {steps[currentStep]?.mstEdges.length > 0 ? (
                   <div className="space-y-2">
@@ -770,25 +773,25 @@ export default function PrimsVisualization() {
                         key={index}
                         className="flex justify-between items-center p-2 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700"
                       >
-                        <span className="font-medium">
+                        <span className="font-medium text-xs sm:text-sm">
                           {graph.nodes[edge.source].label}-{graph.nodes[edge.target].label}
                         </span>
-                        <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded font-mono text-sm">
+                        <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded font-mono text-xs sm:text-sm">
                           Weight: {edge.weight}
                         </span>
                       </div>
                     ))}
                     <div className="mt-4 p-2 bg-green-50 dark:bg-green-900/20 rounded border border-green-200 dark:border-green-800">
-                      <span className="font-medium">Total MST Weight: {calculateTotalMSTWeight()}</span>
+                      <span className="font-medium text-sm">Total MST Weight: {calculateTotalMSTWeight()}</span>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-slate-500 dark:text-slate-400">MST is empty</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">MST is empty</p>
                 )}
               </TabsContent>
-              <TabsContent value="help" className="p-4 border rounded-md mt-2 max-h-[300px] overflow-auto">
+              <TabsContent value="help" className="p-4 border rounded-md mt-2 max-h-[200px] overflow-auto">
                 <h4 className="font-medium mb-2">Understanding Prim's Algorithm</h4>
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-xs sm:text-sm">
                   <p>
                     <strong>Goal:</strong> Find a Minimum Spanning Tree (MST) - a subset of edges that connects all
                     vertices with minimum total weight.
@@ -842,7 +845,7 @@ export default function PrimsVisualization() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="space-y-4 py-4">
+              <div className="space-y-4 py-4 text-sm sm:text-base">
                 <h3 className="text-lg font-semibold">What is Prim's Algorithm?</h3>
                 <p>
                   Prim's algorithm is a greedy algorithm that finds a minimum spanning tree for a weighted undirected

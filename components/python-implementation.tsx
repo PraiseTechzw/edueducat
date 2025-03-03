@@ -501,10 +501,10 @@ export default function PythonImplementation() {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="algorithm">Prim's Algorithm</TabsTrigger>
           <TabsTrigger value="minheap">Min-Heap Implementation</TabsTrigger>
-          <TabsTrigger value="visualization">Visualization Code</TabsTrigger>
+          <TabsTrigger value="visualization">Visualization</TabsTrigger>
         </TabsList>
         <TabsContent value="algorithm" className="relative">
-          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[400px] text-sm">
+          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[300px] sm:max-h-[400px] text-xs sm:text-sm">
             <code className="language-python">{primsAlgorithmCode}</code>
           </pre>
           <Button
@@ -517,7 +517,7 @@ export default function PythonImplementation() {
           </Button>
         </TabsContent>
         <TabsContent value="minheap" className="relative">
-          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[400px] text-sm">
+          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[300px] sm:max-h-[400px] text-xs sm:text-sm">
             <code className="language-python">{minHeapImplementationCode}</code>
           </pre>
           <Button
@@ -530,7 +530,7 @@ export default function PythonImplementation() {
           </Button>
         </TabsContent>
         <TabsContent value="visualization" className="relative">
-          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[400px] text-sm">
+          <pre className="p-4 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-auto max-h-[300px] sm:max-h-[400px] text-xs sm:text-sm">
             <code className="language-python">{visualizationCode}</code>
           </pre>
           <Button
@@ -545,7 +545,7 @@ export default function PythonImplementation() {
       </Tabs>
 
       <div className="flex flex-col space-y-4">
-        <div className="flex space-x-2">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
           <Button
             className="flex-1"
             onClick={() => {
@@ -723,11 +723,11 @@ export default function PythonImplementation() {
         </Button>
 
         <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg">
-          <h3 className="font-medium mb-2 flex items-center">
+          <h3 className="font-medium mb-2 flex items-center text-sm sm:text-base">
             <BookOpen className="h-4 w-4 mr-2" />
             How to Use This Code
           </h3>
-          <ol className="list-decimal pl-5 space-y-1 text-sm">
+          <ol className="list-decimal pl-5 space-y-1 text-xs sm:text-sm">
             <li>Copy the code for the implementation you want to use</li>
             <li>Paste it into your Python environment (local or online)</li>
             <li>Run the code to see Prim's algorithm in action</li>

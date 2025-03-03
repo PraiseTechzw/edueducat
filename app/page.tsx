@@ -9,31 +9,35 @@ export default function Home() {
       <Header />
       <main className="flex-grow bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold text-center mb-6 text-slate-800 dark:text-slate-100">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 md:mb-6 text-slate-800 dark:text-slate-100">
             Prim's Algorithm Visualization
           </h1>
-          <p className="text-lg text-center mb-8 text-slate-600 dark:text-slate-300">
+          <p className="text-base md:text-lg text-center mb-6 md:mb-8 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Interactive visualization of Prim's Algorithm using Min-Heap to find the Minimum Spanning Tree
           </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">Graph Visualization</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6">
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+                Graph Visualization
+              </h2>
               <PrimsVisualization />
             </div>
 
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">Python Implementation</h2>
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6">
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+                Python Implementation
+              </h2>
               <PythonImplementation />
             </div>
           </div>
 
-          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
               How Prim's Algorithm Works
             </h2>
-            <div className="prose dark:prose-invert max-w-none">
-              <h3>Algorithm Steps:</h3>
+            <div className="prose dark:prose-invert max-w-none text-sm md:text-base">
+              <h3 className="text-lg md:text-xl">Algorithm Steps:</h3>
               <ol className="list-decimal pl-6 space-y-2">
                 <li>Start with any vertex as the initial MST</li>
                 <li>Initialize a min-heap with all edges connecting the MST to vertices not in MST</li>
@@ -48,14 +52,14 @@ export default function Home() {
                 </li>
               </ol>
 
-              <h3 className="mt-6">Min-Heap Usage:</h3>
+              <h3 className="text-lg md:text-xl mt-6">Min-Heap Usage:</h3>
               <p>
                 A min-heap is used to efficiently extract the edge with minimum weight at each step. The heap stores
                 edges as (weight, source, destination) tuples, allowing O(log n) extraction of the minimum edge and
                 O(log n) insertion of new edges.
               </p>
 
-              <h3 className="mt-6">Time Complexity:</h3>
+              <h3 className="text-lg md:text-xl mt-6">Time Complexity:</h3>
               <p>
                 The time complexity of Prim's algorithm using a min-heap is O(E log V), where E is the number of edges
                 and V is the number of vertices in the graph.
@@ -63,16 +67,18 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">Algorithm Comparison</h2>
+          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6 overflow-x-auto">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+              Algorithm Comparison
+            </h2>
             <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse">
+              <table className="min-w-full border-collapse text-sm md:text-base">
                 <thead>
                   <tr className="bg-slate-100 dark:bg-slate-700">
-                    <th className="border p-3 text-left">Feature</th>
-                    <th className="border p-3 text-left">Prim's Algorithm</th>
-                    <th className="border p-3 text-left">Kruskal's Algorithm</th>
-                    <th className="border p-3 text-left">Dijkstra's Algorithm</th>
+                    <th className="border p-2 md:p-3 text-left">Feature</th>
+                    <th className="border p-2 md:p-3 text-left">Prim's Algorithm</th>
+                    <th className="border p-2 md:p-3 text-left">Kruskal's Algorithm</th>
+                    <th className="border p-2 md:p-3 text-left">Dijkstra's Algorithm</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -117,9 +123,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">Real-World Applications</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="mt-8 bg-white dark:bg-slate-800 rounded-lg shadow-lg p-4 md:p-6">
+            <h2 className="text-xl md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-100">
+              Real-World Applications
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               <div className="p-4 border rounded-lg">
                 <h3 className="font-semibold mb-2">Network Design</h3>
                 <p className="text-sm">
@@ -158,7 +166,7 @@ export default function Home() {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-slate-600 dark:text-slate-400">Made by Praise Masunga</p>
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Made by Praise Masunga</p>
           </div>
         </div>
       </main>
