@@ -2,10 +2,10 @@
 
 import type React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { useRouter } from "next/navigation"
 
 const sidebarItems = [
   { title: "Introduction", href: "/introduction" },
@@ -21,7 +21,7 @@ const sidebarItems = [
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
+  const router = useRouter()
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <Link
                       href={item.href}
                       className={`block px-4 py-2 rounded-md ${
-                        pathname === item.href
+                        router.pathname === item.href
                           ? "bg-primary text-primary-foreground"
                           : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
@@ -57,3 +57,4 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   )
 }
+
