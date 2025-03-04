@@ -9,6 +9,128 @@ import ComplexityTable from "@/components/complexity-table"
 
 const algorithms = [
   {
+    name: "Algorithm Basics",
+    description: "Introduction to algorithms and their fundamental concepts",
+    longDescription: `
+    Algorithms are step-by-step procedures or formulas for solving problems. They are the foundation of computer science and are essential for efficient problem-solving in various domains.
+
+    Key concepts in algorithms:
+    1. Input: The data on which the algorithm operates
+    2. Output: The result produced by the algorithm
+    3. Definiteness: Each step must be precisely defined
+    4. Finiteness: The algorithm must terminate after a finite number of steps
+    5. Effectiveness: Each step must be basic enough to be carried out by a computer
+
+    When designing algorithms, consider:
+    - Correctness: Does the algorithm solve the problem as required?
+    - Efficiency: How well does it use computational resources?
+    - Simplicity: Is it easy to understand and implement?
+    - Generality: Can it be applied to similar problems?
+  `,
+    visualization: "algorithm-basics",
+    code: `
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1
+
+# Example usage
+numbers = [4, 2, 7, 1, 9, 5]
+result = linear_search(numbers, 7)
+print(f"Index of 7: {result}")
+  `,
+    timeComplexity: [
+      { operation: "Best Case", complexity: "O(1)" },
+      { operation: "Average Case", complexity: "O(n)" },
+      { operation: "Worst Case", complexity: "O(n)" },
+    ],
+    spaceComplexity: "O(1)",
+  },
+  {
+    name: "Algorithm Complexity",
+    description: "Understanding the efficiency of algorithms in terms of time and space",
+    longDescription: `
+    Algorithm complexity refers to the amount of resources (time and space) required by an algorithm to run as a function of the input size. It's crucial for comparing algorithms and predicting their performance on large inputs.
+
+    Key concepts in algorithm complexity:
+    1. Time complexity: How the running time increases with input size
+    2. Space complexity: How the memory usage increases with input size
+    3. Big O notation: Upper bound of growth rate
+    4. Best case, average case, and worst case scenarios
+
+    When analyzing complexity:
+    - Focus on the dominant terms
+    - Consider the input size approaching infinity
+    - Look for nested loops and recursive calls
+  `,
+    visualization: "algorithm-complexity",
+    code: `
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+# Example usage
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = bubble_sort(numbers)
+print(f"Sorted array: {sorted_numbers}")
+  `,
+    timeComplexity: [
+      { operation: "Best Case", complexity: "O(n)" },
+      { operation: "Average Case", complexity: "O(n^2)" },
+      { operation: "Worst Case", complexity: "O(n^2)" },
+    ],
+    spaceComplexity: "O(1)",
+  },
+  {
+    name: "Asymptotic Analysis",
+    description: "Evaluating algorithm efficiency as input sizes approach infinity",
+    longDescription: `
+    Asymptotic analysis is a method of describing the behavior of algorithms as the input size grows towards infinity. It helps in understanding the scalability of algorithms without getting bogged down by hardware-specific details.
+
+    Key concepts in asymptotic analysis:
+    1. Big O notation (O): Upper bound
+    2. Omega notation (Ω): Lower bound
+    3. Theta notation (Θ): Tight bound
+    4. Little o notation (o): Upper bound that is not tight
+    5. Little omega notation (ω): Lower bound that is not tight
+
+    When performing asymptotic analysis:
+    - Ignore constants and lower-order terms
+    - Focus on the growth rate of the function
+    - Consider the worst-case scenario unless specified otherwise
+  `,
+    visualization: "asymptotic-analysis",
+    code: `
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+# Example usage
+sorted_numbers = [1, 3, 5, 7, 9, 11, 13, 15]
+result = binary_search(sorted_numbers, 7)
+print(f"Index of 7: {result}")
+  `,
+    timeComplexity: [
+      { operation: "Best Case", complexity: "O(1)" },
+      { operation: "Average Case", complexity: "O(log n)" },
+      { operation: "Worst Case", complexity: "O(log n)" },
+    ],
+    spaceComplexity: "O(1)",
+  },
+  {
     name: "Bubble Sort",
     description:
       "A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order",

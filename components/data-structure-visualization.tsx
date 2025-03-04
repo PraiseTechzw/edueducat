@@ -44,6 +44,12 @@ const DataStructureVisualization: React.FC<DataStructureVisualizationProps> = ({
         case "linked-list":
           drawLinkedList(ctx, elements, animationStep, textColor, elementColor, highlightColor)
           break
+        case "stack":
+          drawStack(ctx, elements, animationStep, textColor, elementColor, highlightColor)
+          break
+        case "queue":
+          drawQueue(ctx, elements, animationStep, textColor, elementColor, highlightColor)
+          break
         // Add more cases for other data structures
       }
 
@@ -128,6 +134,71 @@ const DataStructureVisualization: React.FC<DataStructureVisualizationProps> = ({
         ctx.fill()
       }
     })
+  }
+
+  const drawStack = (
+    ctx: CanvasRenderingContext2D,
+    elements: number[],
+    step: number,
+    textColor: string,
+    elementColor: string,
+    highlightColor: string,
+  ) => {
+    const elementWidth = 100
+    const elementHeight = 40
+    const startX = 150
+    const startY = 200
+
+    elements.forEach((element, index) => {
+      ctx.fillStyle = index === elements.length - 1 ? highlightColor : elementColor
+      ctx.fillRect(startX, startY - index * elementHeight, elementWidth, elementHeight)
+      ctx.strokeRect(startX, startY - index * elementHeight, elementWidth, elementHeight)
+
+      ctx.fillStyle = textColor
+      ctx.font = "20px Arial"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText(element.toString(), startX + elementWidth / 2, startY - index * elementHeight + elementHeight / 2)
+    })
+
+    // Draw "TOP" label
+    ctx.fillStyle = textColor
+    ctx.font = "16px Arial"
+    ctx.textAlign = "right"
+    ctx.fillText("TOP", startX - 10, startY - (elements.length - 1) * elementHeight + elementHeight / 2)
+  }
+
+  const drawQueue = (
+    ctx: CanvasRenderingContext2D,
+    elements: number[],
+    step: number,
+    textColor: string,
+    elementColor: string,
+    highlightColor: string,
+  ) => {
+    const elementWidth = 60
+    const elementHeight = 60
+    const startX = 50
+    const startY = 120
+
+    elements.forEach((element, index) => {
+      ctx.fillStyle = index === 0 ? highlightColor : index === elements.length - 1 ? "#ff9800" : elementColor
+      ctx.fillRect(startX + index * elementWidth, startY, elementWidth, elementHeight)
+      ctx.strokeRect(startX + index * elementWidth, startY, elementWidth, elementHeight)
+
+      ctx.fillStyle = textColor
+      ctx.font = "20px Arial"
+      ctx.textAlign = "center"
+      ctx.textBaseline = "middle"
+      ctx.fillText(element.toString(), startX + index * elementWidth + elementWidth / 2, startY + elementHeight / 2)
+    })
+
+    // Draw "FRONT" and "REAR" labels
+    ctx.fillStyle = textColor
+    ctx.font = "16px Arial"
+    ctx.textAlign = "center"
+    ctx.fillText("FRONT", startX + elementWidth / 2, startY + elementHeight + 20)
+    ctx.fillText("REAR", startX + (elements.length - 1) * elementWidth + elementWidth / 2, startY + elementHeight + 20)
   }
 
   return (

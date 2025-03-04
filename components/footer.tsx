@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-4 py-4 text-center">
         <p className="text-gray-600 dark:text-gray-400">
-          © {new Date().getFullYear()} Data Structures & Algorithms. Created by Praise Masunga.
+          © {new Date().getFullYear()} Data Structures & Algorithms. Created by Your Name.
         </p>
       </div>
     </footer>

@@ -2,13 +2,23 @@ import PrimsVisualization from "@/components/prims-visualization"
 import PythonImplementation from "@/components/python-implementation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Header />
-      <main className="flex-grow bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
-        <div className="container mx-auto px-4 py-8">
+      <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
+        <h1 className="text-6xl font-bold">Welcome to Data Structures and Algorithms</h1>
+        <p className="mt-3 text-2xl">Start your journey to master DSA concepts</p>
+        <div className="flex mt-6">
+          <Link href="/introduction" passHref>
+            <Button size="lg">Get Started</Button>
+          </Link>
+        </div>
+
+        <div className="container mx-auto px-4 py-8 mt-12">
           <h1 className="text-3xl font-bold text-center mb-6 text-slate-800 dark:text-slate-100">
             Prim's Algorithm Visualization
           </h1>

@@ -155,6 +155,122 @@ class LinkedList:
       "Implementing hash tables with chaining for collision resolution",
     ],
   },
+  {
+    name: "Stack",
+    description: "A linear data structure that follows the Last-In-First-Out (LIFO) principle",
+    longDescription: `
+      A stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle. This means that the last element added to the stack will be the first one to be removed. Think of it like a stack of plates - you add plates to the top and remove them from the top.
+
+      Key characteristics of stacks:
+      1. LIFO (Last-In-First-Out) order
+      2. Elements are added and removed from the same end (top)
+      3. Supports two main operations: push (add) and pop (remove)
+      4. Can be implemented using arrays or linked lists
+
+      Stacks are particularly useful when:
+      - You need to reverse the order of elements
+      - You want to keep track of function calls (call stack)
+      - You need to implement undo/redo functionality
+      - Parsing expressions (e.g., checking for balanced parentheses)
+    `,
+    visualization: "stack",
+    code: `
+class Stack:
+  def __init__(self):
+      self.items = []
+
+  def push(self, item):
+      self.items.append(item)
+
+  def pop(self):
+      if not self.is_empty():
+          return self.items.pop()
+      return None
+
+  def peek(self):
+      if not self.is_empty():
+          return self.items[-1]
+      return None
+
+  def is_empty(self):
+      return len(self.items) == 0
+
+  def size(self):
+      return len(self.items)
+  `,
+    timeComplexity: [
+      { operation: "Push", complexity: "O(1)" },
+      { operation: "Pop", complexity: "O(1)" },
+      { operation: "Peek", complexity: "O(1)" },
+      { operation: "Is Empty", complexity: "O(1)" },
+      { operation: "Size", complexity: "O(1)" },
+    ],
+    spaceComplexity: "O(n)",
+    realWorldApplications: [
+      "Function call stack in programming languages",
+      "Undo mechanism in text editors",
+      "Browser history (back button functionality)",
+      "Expression evaluation in calculators",
+    ],
+  },
+  {
+    name: "Queue",
+    description: "A linear data structure that follows the First-In-First-Out (FIFO) principle",
+    longDescription: `
+      A queue is a linear data structure that follows the First-In-First-Out (FIFO) principle. This means that the first element added to the queue will be the first one to be removed. Think of it like a line of people waiting for a service - the first person to join the line is the first to be served.
+
+      Key characteristics of queues:
+      1. FIFO (First-In-First-Out) order
+      2. Elements are added at one end (rear) and removed from the other end (front)
+      3. Supports two main operations: enqueue (add) and dequeue (remove)
+      4. Can be implemented using arrays or linked lists
+
+      Queues are particularly useful when:
+      - You need to maintain the order of operations
+      - You want to process requests in the order they were received
+      - You need to implement breadth-first search in graphs
+      - Managing tasks in multitasking systems
+    `,
+    visualization: "queue",
+    code: `
+class Queue:
+  def __init__(self):
+      self.items = []
+
+  def enqueue(self, item):
+      self.items.append(item)
+
+  def dequeue(self):
+      if not self.is_empty():
+          return self.items.pop(0)
+      return None
+
+  def front(self):
+      if not self.is_empty():
+          return self.items[0]
+      return None
+
+  def is_empty(self):
+      return len(self.items) == 0
+
+  def size(self):
+      return len(self.items)
+  `,
+    timeComplexity: [
+      { operation: "Enqueue", complexity: "O(1)" },
+      { operation: "Dequeue", complexity: "O(n)" },
+      { operation: "Front", complexity: "O(1)" },
+      { operation: "Is Empty", complexity: "O(1)" },
+      { operation: "Size", complexity: "O(1)" },
+    ],
+    spaceComplexity: "O(n)",
+    realWorldApplications: [
+      "Print job spooling",
+      "Handling requests in web servers",
+      "Breadth-first search in graph algorithms",
+      "Task scheduling in operating systems",
+    ],
+  },
   // Add more data structures here (Stack, Queue, Hash Table, etc.)
 ]
 
