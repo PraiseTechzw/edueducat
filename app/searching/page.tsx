@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import SearchingVisualization from "@/components/searching-visualization"
 import CodeBlock from "@/components/code-block"
 import ComplexityTable from "@/components/complexity-table"
+import Quiz from "@/components/quiz"
 
 const searchingTechniques = [
   {
@@ -85,7 +86,85 @@ def binary_search(arr, target):
     ],
     spaceComplexity: "O(1)",
   },
-  // Add more searching techniques here (e.g., Jump Search, Interpolation Search)
+  {
+    name: "Hash Tables",
+    description:
+      "A data structure that implements an associative array abstract data type, a structure that can map keys to values",
+    longDescription: `
+      Hash Tables are a data structure that allow for efficient insertion, deletion, and lookup operations. They work by using a hash function to compute an index into an array of buckets or slots, from which the desired value can be found.
+
+      Key characteristics of Hash Tables:
+      1. Fast average-case performance for insertions, deletions, and lookups (O(1))
+      2. Uses a hash function to map keys to indices
+      3. Handles collisions through methods like chaining or open addressing
+      4. Requires more memory than arrays or linked lists
+
+      Hash Tables are particularly useful when:
+      - Fast lookups are required
+      - The data has unique identifiers (keys)
+      - Implementing caches, symbol tables, or sets
+    `,
+    visualization: "hash-table",
+    code: `
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [[] for _ in range(self.size)]
+
+    def hash_function(self, key):
+        return hash(key) % self.size
+
+    def insert(self, key, value):
+        hash_index = self.hash_function(key)
+        for item in self.table[hash_index]:
+            if item[0] == key:
+                item[1] = value
+                return
+        self.table[hash_index].append([key, value])
+
+    def search(self, key):
+        hash_index = self.hash_function(key)
+        for item in self.table[hash_index]:
+            if item[0] == key:
+                return item[1]
+        return None
+
+    def delete(self, key):
+        hash_index = self.hash_function(key)
+        for i, item in enumerate(self.table[hash_index]):
+            if item[0] == key:
+                del self.table[hash_index][i]
+                return
+    `,
+    timeComplexity: [
+      { operation: "Average Case (Insert, Search, Delete)", complexity: "O(1)" },
+      { operation: "Worst Case (Insert, Search, Delete)", complexity: "O(n)" },
+    ],
+    spaceComplexity: "O(n)",
+  },
+]
+
+const searchingQuiz = [
+  {
+    question: "Which searching algorithm has a time complexity of O(log n)?",
+    options: ["Linear Search", "Binary Search", "Hash Table Lookup", "Interpolation Search"],
+    correctAnswer: "Binary Search",
+  },
+  {
+    question: "What is the main advantage of using a hash table for searching?",
+    options: [
+      "It always has O(1) time complexity",
+      "It works on unsorted data",
+      "It requires less memory than other data structures",
+      "It provides fast average-case performance for lookups",
+    ],
+    correctAnswer: "It provides fast average-case performance for lookups",
+  },
+  {
+    question: "Which searching technique is most suitable for small, unsorted lists?",
+    options: ["Linear Search", "Binary Search", "Hash Table", "B-Tree Search"],
+    correctAnswer: "Linear Search",
+  },
 ]
 
 export default function SearchingPage() {
@@ -140,6 +219,51 @@ export default function SearchingPage() {
           </TabsContent>
         ))}
       </Tabs>
+      <Card>
+        <CardHeader>
+          <CardTitle>Searching Techniques Quiz</CardTitle>
+          <CardDescription>Test your knowledge of searching algorithms</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Quiz questions={searchingQuiz} />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Practical Activities</CardTitle>
+          <CardDescription>Implement different types of searching algorithms in Python</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <h3 className="text-lg font-semibold mb-2">1. Implement Linear Search</h3>
+          <CodeBlock
+            code={`
+def linear_search(arr, target):
+    # TODO: Implement linear search algorithm
+    pass
+
+# Test your implementation
+test_array = [4, 2, 7, 1, 9, 5]
+result = linear_search(test_array, 7)
+print(f"Index of 7: {result}")
+            `}
+            language="python"
+          />
+          <h3 className="text-lg font-semibold mb-2 mt-4">2. Implement Binary Search for Sorted Arrays</h3>
+          <CodeBlock
+            code={`
+def binary_search(arr, target):
+    # TODO: Implement binary search algorithm
+    pass
+
+# Test your implementation
+test_array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+result = binary_search(test_array, 6)
+print(f"Index of 6: {result}")
+            `}
+            language="python"
+          />
+        </CardContent>
+      </Card>
     </div>
   )
 }

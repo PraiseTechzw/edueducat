@@ -33,6 +33,12 @@ const AlgorithmVisualization: React.FC<AlgorithmVisualizationProps> = ({ type })
       case "binary-search":
         drawBinarySearch(ctx, currentStep)
         break
+      case "dijkstra":
+        drawDijkstra(ctx, currentStep)
+        break
+      case "astar":
+        drawAStar(ctx, currentStep)
+        break
       // Add more cases for other algorithms
     }
   }, [type, currentStep])
@@ -78,6 +84,102 @@ const AlgorithmVisualization: React.FC<AlgorithmVisualizationProps> = ({ type })
     ctx.fillRect(startX + high * elementWidth, startY + elementHeight + 10, elementWidth, 5)
     ctx.fillStyle = "#2196f3"
     ctx.fillRect(startX + mid * elementWidth, startY + elementHeight + 20, elementWidth, 5)
+  }
+
+  const drawDijkstra = (ctx: CanvasRenderingContext2D, step: number) => {
+    const graph = [
+      [0, 4, 0, 0, 0, 0],
+      [4, 0, 8, 0, 11, 0],
+      [0, 8, 0, 7, 0, 2],
+      [0, 0, 7, 0, 9, 14],
+      [0, 11, 0, 9, 0, 10],
+      [0, 0, 2, 14, 10, 0],
+    ]
+    const nodeRadius = 20
+    const startX = 50
+    const startY = 50
+    const spacing = 80
+
+    // Draw nodes
+    for (let i = 0; i < graph.length; i++) {
+      const x = startX + (i % 3) * spacing
+      const y = startY + Math.floor(i / 3) * spacing
+      ctx.beginPath()
+      ctx.arc(x, y, nodeRadius, 0, 2 * Math.PI)
+      ctx.fillStyle = i <= step ? "#4caf50" : "#fff"
+      ctx.fill()
+      ctx.stroke()
+      ctx.fillStyle = "#000"
+      ctx.fillText(String.fromCharCode(65 + i), x, y)
+    }
+
+    // Draw edges
+    for (let i = 0; i < graph.length; i++) {
+      for (let j = i + 1; j < graph[i].length; j++) {
+        if (graph[i][j] !== 0) {
+          const x1 = startX + (i % 3) * spacing
+          const y1 = startY + Math.floor(i / 3) * spacing
+          const x2 = startX + (j % 3) * spacing
+          const y2 = startY + Math.floor(j / 3) * spacing
+          ctx.beginPath()
+          ctx.moveTo(x1, y1)
+          ctx.lineTo(x2, y2)
+          ctx.strokeStyle = i < step && j < step ? "#ff9800" : "#000"
+          ctx.stroke()
+          ctx.fillStyle = "#000"
+          ctx.fillText(graph[i][j].toString(), (x1 + x2) / 2, (y1 + y2) / 2)
+        }
+      }
+    }
+  }
+
+  const drawAStar = (ctx: CanvasRenderingContext2D, step: number) => {
+    const grid = [
+      [0, 0, 0, 1, 0],
+      [1, 1, 0, 1, 0],
+      [0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0],
+    ]
+    const cellSize = 50
+    const startX = 50
+    const startY = 50
+
+    // Draw grid
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        const x = startX + j * cellSize
+        const y = startY + i * cellSize
+        ctx.fillStyle = grid[i][j] === 1 ? "#000" : "#fff"
+        ctx.fillRect(x, y, cellSize, cellSize)
+        ctx.strokeRect(x, y, cellSize, cellSize)
+      }
+    }
+
+    // Draw path
+    const path = [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 2],
+      [2, 2],
+      [2, 3],
+      [2, 4],
+      [3, 4],
+      [4, 4],
+    ]
+
+    for (let i = 0; i <= step && i < path.length; i++) {
+      const [x, y] = path[i]
+      ctx.fillStyle = "#4caf50"
+      ctx.fillRect(startX + y * cellSize, startY + x * cellSize, cellSize, cellSize)
+    }
+
+    // Draw start and goal
+    ctx.fillStyle = "#2196f3"
+    ctx.fillRect(startX, startY, cellSize, cellSize)
+    ctx.fillStyle = "#f44336"
+    ctx.fillRect(startX + 4 * cellSize, startY + 4 * cellSize, cellSize, cellSize)
   }
 
   const handlePlay = () => {

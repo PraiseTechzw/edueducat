@@ -1,7 +1,11 @@
 const nextConfig = {
   reactStrictMode: true,
-  typescript: {
-    ignoreBuildErrors: false,
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  images: {
+    domains: ["placeholder.com"],
   },
 }
 

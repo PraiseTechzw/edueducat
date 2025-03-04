@@ -1,9 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 interface DataStructureVisualizationProps {
   type: string
@@ -15,6 +15,7 @@ const DataStructureVisualization: React.FC<DataStructureVisualizationProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [elements, setElements] = useState<number[]>([1, 2, 3, 4, 5])
   const [animationStep, setAnimationStep] = useState(0)
+  const [newElement, setNewElement] = useState("")
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -201,12 +202,32 @@ const DataStructureVisualization: React.FC<DataStructureVisualizationProps> = ({
     ctx.fillText("REAR", startX + (elements.length - 1) * elementWidth + elementWidth / 2, startY + elementHeight + 20)
   }
 
+  const handleAddElement = () => {
+    if (newElement.trim() !== "") {
+      setElements([...elements, Number.parseInt(newElement)])
+      setNewElement("")
+    }
+  }
+
+  const handleRemoveElement = () => {
+    if (elements.length > 0) {
+      setElements(elements.slice(0, -1))
+    }
+  }
+
   return (
     <div className="relative">
       <canvas ref={canvasRef} width={400} height={200} className="w-full h-auto border rounded-lg" />
       <div className="mt-4 flex justify-center space-x-2">
-        <Button onClick={() => setElements([...elements, elements.length + 1])}>Add Element</Button>
-        <Button onClick={() => setElements(elements.slice(0, -1))}>Remove Element</Button>
+        <Input
+          type="number"
+          value={newElement}
+          onChange={(e) => setNewElement(e.target.value)}
+          placeholder="Enter a number"
+          className="w-32"
+        />
+        <Button onClick={handleAddElement}>Add Element</Button>
+        <Button onClick={handleRemoveElement}>Remove Element</Button>
       </div>
     </div>
   )

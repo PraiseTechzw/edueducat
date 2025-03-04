@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ThemeSwitcher } from "@/components/theme-provider"
 
 export default function Header() {
   return (
@@ -9,7 +10,8 @@ export default function Header() {
         <Link href="/" className="text-2xl font-bold text-gray-800 dark:text-gray-100">
           Data Structures & Algorithms
         </Link>
-        <nav>
+        <nav className="flex items-center space-x-4">
+          <ThemeSwitcher />
           <Button variant="outline" size="sm" asChild>
             <a
               href="https://github.com/your-github-username/data-structures-algorithms"
