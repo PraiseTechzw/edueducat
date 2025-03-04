@@ -1,8 +1,7 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "react/prop-types": "off",  // Not needed with TypeScript
-    "react/react-in-jsx-scope": "off",  // Not needed with Next.js
+    "react/prop-types": "off",  
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   }
 }
