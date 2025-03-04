@@ -25,6 +25,7 @@ export default function DataStructureVisualization({ type }: DataStructureVisual
 
   // Initialize the visualization
   useEffect(() => {
+    let animationId: number;
     resetVisualization()
   }, [type])
 
@@ -76,7 +77,7 @@ export default function DataStructureVisualization({ type }: DataStructureVisual
         ]
         break
       case "hash-table":
-        initialElements = [null, 42, null, 13, 7, null, null, 28]
+        initialElements = [NaN, 42, NaN, 13, 7, NaN, NaN, 28]
         initialSteps = [
           {
             elements: [...initialElements],
@@ -210,7 +211,6 @@ export default function DataStructureVisualization({ type }: DataStructureVisual
 
   // Animation loop
   useEffect(() => {
-    let animationId: number
 
     if (isPlaying && animationStep < animationSteps.length - 1) {
       const timeout = setTimeout(
@@ -235,8 +235,9 @@ export default function DataStructureVisualization({ type }: DataStructureVisual
       }
     }
 
-    return () => cancelAnimationFrame(animationId)
-  }, [isPlaying, animationStep, animationSteps, speed])
+      return () => {};
+    }, [isPlaying, animationStep, animationSteps, speed]);
+    return () => {}
 
   // Update current state based on animation step
   useEffect(() => {
