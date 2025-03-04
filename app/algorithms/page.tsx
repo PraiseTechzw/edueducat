@@ -1,14 +1,11 @@
 "use client"
-
-import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import AlgorithmVisualization from "@/components/algorithm-visualization"
-import CodeBlock from "@/components/code-block"
-import ComplexityTable from "@/components/complexity-table"
-import StepByStepGuide from "@/components/step-by-step-guide"
-import InteractiveQuiz from "@/components/interactive-quiz"
+import AlgorithmList from "@/components/algorithms/algorithm-list"
+import AlgorithmBasics from "@/components/algorithms/algorithm-basics"
+import ComplexityAnalysis from "@/components/algorithms/complexity-analysis"
+import AsymptoticAnalysis from "@/components/algorithms/asymptotic-analysis"
+import PracticeExercises from "@/components/data-structures/practice-exercises"
 
 const algorithms = [
   {
@@ -1091,302 +1088,80 @@ const complexityQuiz = {
 }
 
 export default function AlgorithmsPage() {
-  const [activeAlgorithm, setActiveAlgorithm] = useState(algorithms[0].name)
-  const [activeTab, setActiveTab] = useState("algorithms")
-
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Algorithms Learning Platform</h1>
-      <p className="text-lg text-gray-700 dark:text-gray-300">
-        Explore various algorithms, their implementations, and use cases. Understanding these fundamental algorithms is
-        crucial for efficient problem-solving and optimizing software performance.
-      </p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Algorithms</h1>
+        <p className="text-slate-600 dark:text-slate-300">
+          Learn and visualize popular algorithms with step-by-step explanations and interactive examples.
+        </p>
+      </div>
 
-      <Tabs defaultValue="algorithms" onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
+      <Tabs defaultValue="algorithms" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-2">
           <TabsTrigger value="algorithms">Algorithms</TabsTrigger>
-          <TabsTrigger value="basics">Algorithm Basics</TabsTrigger>
-          <TabsTrigger value="complexity">Algorithm Complexity</TabsTrigger>
+          <TabsTrigger value="basics">Basics</TabsTrigger>
+          <TabsTrigger value="complexity">Complexity</TabsTrigger>
           <TabsTrigger value="asymptotic">Asymptotic Analysis</TabsTrigger>
-          <TabsTrigger value="practice">Practice & Examples</TabsTrigger>
+          <TabsTrigger value="practice">Practice</TabsTrigger>
         </TabsList>
 
-        {/* Algorithms Tab */}
-        <TabsContent value="algorithms">
-          <Tabs defaultValue={algorithms[0].name} onValueChange={setActiveAlgorithm}>
-            <TabsList className="mb-4">
-              {algorithms.map((algo) => (
-                <TabsTrigger key={algo.name} value={algo.name}>
-                  {algo.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {algorithms.map((algo) => (
-              <TabsContent key={algo.name} value={algo.name}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{algo.name}</CardTitle>
-                    <CardDescription>{algo.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Visualization</h3>
-                        <AlgorithmVisualization type={algo.visualization} />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Implementation</h3>
-                        <CodeBlock code={algo.code} language="python" />
-                      </div>
-                    </div>
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-2">Detailed Explanation</h3>
-                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{algo.longDescription}</p>
-                    </div>
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-2">Time and Space Complexity</h3>
-                      <ComplexityTable timeComplexity={algo.timeComplexity} spaceComplexity={algo.spaceComplexity} />
-                    </div>
-                    <div className="mt-6">
-                      <StepByStepGuide steps={algo.steps} />
-                    </div>
-                    <div className="mt-6">
-                      <InteractiveQuiz questions={algo.quiz} title={`${algo.name} Quiz`} />
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
+        <TabsContent value="algorithms" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Algorithm Visualizations</CardTitle>
+              <CardDescription>Explore different algorithms with interactive visualizations</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AlgorithmList />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        {/* Algorithm Basics Tab */}
-        <TabsContent value="basics">
+        <TabsContent value="basics" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Algorithm Basics</CardTitle>
-              <CardDescription>
-                Learn the fundamental concepts of algorithms and their importance in computer science.
-              </CardDescription>
+              <CardDescription>Learn the fundamental concepts of algorithms</CardDescription>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                {algorithmBasics.map((item, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger>{item.title}</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{item.content}</p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <AlgorithmBasics />
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Algorithm Complexity Tab */}
-        <TabsContent value="complexity">
+        <TabsContent value="complexity" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Algorithm Complexity</CardTitle>
-              <CardDescription>
-                Understand how to analyze and compare the efficiency of different algorithms.
-              </CardDescription>
+              <CardTitle>Complexity Analysis</CardTitle>
+              <CardDescription>Understand time and space complexity of algorithms</CardDescription>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                {algorithmComplexity.map((item, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger>{item.title}</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{item.content}</p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-4">Common Time Complexity Comparison</h3>
-                <div className="w-full h-64 bg-white dark:bg-gray-800 rounded-md border p-4">
-                  {/* This would be a chart in a real implementation */}
-                  <div className="text-center text-gray-500 mt-20">
-                    Complexity growth visualization would appear here
-                  </div>
-                </div>
-              </div>
+              <ComplexityAnalysis />
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Asymptotic Analysis Tab */}
-        <TabsContent value="asymptotic">
+        <TabsContent value="asymptotic" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Asymptotic Analysis</CardTitle>
-              <CardDescription>Learn how to analyze the performance of algorithms as input sizes grow.</CardDescription>
+              <CardDescription>Learn about Big O, Big Omega, and Big Theta notations</CardDescription>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                {asymptoticAnalysis.map((item, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger>{item.title}</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{item.content}</p>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-2">Notation Comparison</h3>
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-gray-800">
-                      <th className="border p-2 text-left">Notation</th>
-                      <th className="border p-2 text-left">Meaning</th>
-                      <th className="border p-2 text-left">Usage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border p-2">Big O (O)</td>
-                      <td className="border p-2">Upper bound</td>
-                      <td className="border p-2">Worst-case analysis</td>
-                    </tr>
-                    <tr>
-                      <td className="border p-2">Big Omega (Ω)</td>
-                      <td className="border p-2">Lower bound</td>
-                      <td className="border p-2">Best-case analysis</td>
-                    </tr>
-                    <tr>
-                      <td className="border p-2">Big Theta (Θ)</td>
-                      <td className="border p-2">Tight bound</td>
-                      <td className="border p-2">Average-case analysis</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <AsymptoticAnalysis />
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Practice & Examples Tab */}
-        <TabsContent value="practice">
+        <TabsContent value="practice" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Practice & Examples</CardTitle>
-              <CardDescription>
-                Test your understanding of algorithm complexity with practical examples and quizzes.
-              </CardDescription>
+              <CardTitle>Practice Exercises</CardTitle>
+              <CardDescription>Apply your knowledge with practical exercises</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4">Examples of Different Complexities</h3>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="constant">
-                    <AccordionTrigger>Constant Time - O(1)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">Operations that take the same amount of time regardless of input size:</p>
-                      <CodeBlock
-                        code={`def get_first_element(arr):
-    return arr[0]  # O(1) - constant time operation`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="logarithmic">
-                    <AccordionTrigger>Logarithmic Time - O(log n)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">Operations that reduce the problem size by a factor in each step:</p>
-                      <CodeBlock
-                        code={`def binary_search(arr, target):
-    low, high = 0, len(arr) - 1
-    
-    while low <= high:
-        mid = (low + high) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            low = mid + 1  # Eliminate left half
-        else:
-            high = mid - 1  # Eliminate right half
-            
-    return -1  # O(log n) - logarithmic time`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="linear">
-                    <AccordionTrigger>Linear Time - O(n)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">Operations that process each input element once:</p>
-                      <CodeBlock
-                        code={`def find_maximum(arr):
-    max_val = float('-inf')
-    for num in arr:  # Loop runs n times
-        if num > max_val:
-            max_val = num
-    return max_val  # O(n) - linear time`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="linearithmic">
-                    <AccordionTrigger>Linearithmic Time - O(n log n)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">Operations that combine linear and logarithmic complexities:</p>
-                      <CodeBlock
-                        code={`def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
-        
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])  # Recursive call on left half
-    right = merge_sort(arr[mid:])  # Recursive call on right half
-    
-    # Merge step - O(n)
-    return merge(left, right)  # Overall: O(n log n)`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="quadratic">
-                    <AccordionTrigger>Quadratic Time - O(n²)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">Operations with nested iterations over the input:</p>
-                      <CodeBlock
-                        code={`def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):  # Outer loop runs n times
-        for j in range(0, n - i - 1):  # Inner loop runs n-i-1 times
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr  # O(n²) - quadratic time`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="exponential">
-                    <AccordionTrigger>Exponential Time - O(2ⁿ)</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="mb-2">
-                        Operations where the number of steps doubles with each additional input element:
-                      </p>
-                      <CodeBlock
-                        code={`def fibonacci_recursive(n):
-    if n <= 1:
-        return n
-    return fibonacci_recursive(n-1) + fibonacci_recursive(n-2)  # O(2ⁿ) - exponential time`}
-                        language="python"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              </div>
-
-              <div className="mt-8">
-                <InteractiveQuiz questions={complexityQuiz.questions} title={complexityQuiz.title} />
-              </div>
+              <PracticeExercises />
             </CardContent>
           </Card>
         </TabsContent>
