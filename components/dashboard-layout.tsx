@@ -1,59 +1,90 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
 import Link from "next/link"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+  ChevronLeft,
+  ChevronRight,
+  LayoutDashboard,
+  Database,
+  GitBranch,
+  Search,
+  SortAsc,
+  Network,
+  GitFork,
+  Workflow,
+} from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useRouter } from "next/navigation"
 
 const sidebarItems = [
-  { title: "Introduction", href: "/introduction" },
-  { title: "Data Structures Fundamentals", href: "/data-structures" },
-  { title: "Algorithms", href: "/algorithms" },
-  { title: "Trees", href: "/trees" },
-  { title: "Searching Techniques", href: "/searching" },
-  { title: "Sorting Algorithms", href: "/sorting" },
-  { title: "Graphs", href: "/graphs" },
-  { title: "Kruskal's Algorithm", href: "/kruskals" },
-  { title: "Dijkstra's Algorithm", href: "/dijkstras" },
-  { title: "Prim's Algorithm", href: "/" },
+  { icon: LayoutDashboard, title: "Introduction", href: "/introduction" },
+  { icon: Database, title: "Data Structures", href: "/data-structures" },
+  { icon: GitBranch, title: "Algorithms", href: "/algorithms" },
+  { icon: GitFork, title: "Trees", href: "/trees" },
+  { icon: Search, title: "Searching Techniques", href: "/searching" },
+  { icon: SortAsc, title: "Sorting Algorithms", href: "/sorting" },
+  { icon: Network, title: "Graphs", href: "/graphs" },
+  { icon: Workflow, title: "Advanced Algorithms", href: "/advanced-algorithms" },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const pathname = usePathname()
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex flex-1">
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-          <ScrollArea className="h-[calc(100vh-4rem)]">
-            <nav className="p-4">
-              <ul className="space-y-2">
-                {sidebarItems.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`block px-4 py-2 rounded-md ${
-                        router.pathname === item.href
-                          ? "bg-primary text-primary-foreground"
-                          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </ScrollArea>
-        </aside>
-        <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
-          <div className="container mx-auto px-4 py-8">{children}</div>
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
+      {/* Sidebar */}
+      <motion.aside
+        className="bg-white dark:bg-gray-800 w-64 fixed h-full overflow-hidden transition-all duration-300 ease-in-out"
+        animate={{ width: sidebarOpen ? 256 : 64 }}
+      >
+        <div className="flex items-center justify-between p-4">
+          <h1
+            className={`text-xl font-bold ${sidebarOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+          >
+            DSA Learning
+          </h1>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+          >
+            {sidebarOpen ? <ChevronLeft /> : <ChevronRight />}
+          </Button>
+        </div>
+        <ScrollArea className="h-[calc(100vh-5rem)]">
+          <nav className="space-y-2 p-2">
+            {sidebarItems.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <Button variant={pathname === item.href ? "secondary" : "ghost"} className="w-full justify-start">
+                  <item.icon className="mr-2 h-4 w-4" />
+                  <span className={`${sidebarOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}>
+                    {item.title}
+                  </span>
+                </Button>
+              </Link>
+            ))}
+          </nav>
+        </ScrollArea>
+      </motion.aside>
+
+      {/* Main content */}
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${sidebarOpen ? "ml-64" : "ml-16"}`}
+      >
+        <Header />
+        <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-6">
+          <div className="container mx-auto">{children}</div>
         </main>
+        <Footer />
       </div>
-      <Footer />
     </div>
   )
 }

@@ -1,11 +1,18 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
+import { ArrowRight, Code, FileText, Play, Settings } from "lucide-react"
 import DataStructureVisualization from "@/components/data-structure-visualization"
 import CodeBlock from "@/components/code-block"
 import ComplexityTable from "@/components/complexity-table"
+import Link from "next/link"
 
 const dataStructures = [
   {
@@ -57,6 +64,12 @@ class DynamicArray:
       { operation: "Deletion", complexity: "O(n)" },
     ],
     spaceComplexity: "O(n)",
+    realWorldApplications: [
+      "Storing and accessing sequential data",
+      "Implementing matrices for scientific computing",
+      "Managing fixed-size buffers in embedded systems",
+      "Implementing other data structures like stacks and queues",
+    ],
   },
   {
     name: "Linked List",
@@ -135,20 +148,68 @@ class LinkedList:
       { operation: "Deletion", complexity: "O(n)" },
     ],
     spaceComplexity: "O(n)",
+    realWorldApplications: [
+      "Implementing undo functionality in applications",
+      "Managing memory allocation in operating systems",
+      "Representing polynomials in computer algebra systems",
+      "Implementing hash tables with chaining for collision resolution",
+    ],
   },
   // Add more data structures here (Stack, Queue, Hash Table, etc.)
 ]
 
 export default function DataStructuresPage() {
   const [activeDataStructure, setActiveDataStructure] = useState(dataStructures[0].name)
+  const [animationSpeed, setAnimationSpeed] = useState(1)
+  const [showComplexity, setShowComplexity] = useState(true)
+  const [darkMode, setDarkMode] = useState(false)
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Data Structures Fundamentals</h1>
+    <motion.div
+      className={`space-y-6 ${darkMode ? "dark" : ""}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Data Structures Fundamentals</h1>
+        <Button variant="outline" size="icon">
+          <Settings className="h-4 w-4" />
+        </Button>
+      </div>
       <p className="text-lg text-gray-700 dark:text-gray-300">
         Explore various data structures, their implementations, and use cases. Understanding these fundamental building
         blocks is crucial for efficient algorithm design and problem-solving in computer science.
       </p>
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Visualization Settings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="animation-speed">Animation Speed</Label>
+              <Slider
+                id="animation-speed"
+                min={0.5}
+                max={2}
+                step={0.1}
+                value={[animationSpeed]}
+                onValueChange={(value) => setAnimationSpeed(value[0])}
+              />
+              <span>{animationSpeed.toFixed(1)}x</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="show-complexity" checked={showComplexity} onCheckedChange={setShowComplexity} />
+              <Label htmlFor="show-complexity">Show Complexity Analysis</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="dark-mode" checked={darkMode} onCheckedChange={setDarkMode} />
+              <Label htmlFor="dark-mode">Dark Mode</Label>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
       <Tabs defaultValue={dataStructures[0].name} onValueChange={setActiveDataStructure}>
         <TabsList className="mb-4">
           {dataStructures.map((ds) => (
@@ -168,7 +229,11 @@ export default function DataStructuresPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Visualization</h3>
-                    <DataStructureVisualization type={ds.visualization} />
+                    <DataStructureVisualization
+                      type={ds.visualization}
+                      animationSpeed={animationSpeed}
+                      darkMode={darkMode}
+                    />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Implementation</h3>
@@ -179,16 +244,44 @@ export default function DataStructuresPage() {
                   <h3 className="text-lg font-semibold mb-2">Detailed Explanation</h3>
                   <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{ds.longDescription}</p>
                 </div>
+                {showComplexity && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold mb-2">Time and Space Complexity</h3>
+                    <ComplexityTable timeComplexity={ds.timeComplexity} spaceComplexity={ds.spaceComplexity} />
+                  </div>
+                )}
                 <div className="mt-6">
-                  <h3 className="text-lg font-semibold mb-2">Time and Space Complexity</h3>
-                  <ComplexityTable timeComplexity={ds.timeComplexity} spaceComplexity={ds.spaceComplexity} />
+                  <h3 className="text-lg font-semibold mb-2">Real-World Applications</h3>
+                  <ul className="list-disc pl-5 space-y-1">
+                    {ds.realWorldApplications.map((app, index) => (
+                      <li key={index}>{app}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mt-6 flex justify-between">
+                  <Button variant="outline">
+                    <FileText className="mr-2 h-4 w-4" /> Further Reading
+                  </Button>
+                  <Button variant="outline">
+                    <Code className="mr-2 h-4 w-4" /> Practice Exercises
+                  </Button>
+                  <Button>
+                    <Play className="mr-2 h-4 w-4" /> Interactive Demo
+                  </Button>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
         ))}
       </Tabs>
-    </div>
+      <div className="mt-8 text-center">
+        <Link href="/algorithms">
+          <Button size="lg">
+            Explore Algorithms <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </Link>
+      </div>
+    </motion.div>
   )
 }
 
